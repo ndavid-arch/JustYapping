@@ -4,13 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="A personal essay on driving, status, and what a Rwandan driver's license really means.">
-  <title>Behind the Wheel</title>
+  <meta name="description" content="JustYapping: Beni's blog of opinions, small wins, and learning in public.">
+  <title>JustYapping</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&family=Permanent+Marker&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Permanent+Marker&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -144,391 +143,111 @@
       margin-right: 5px;
     }
 
-    /* ─── Layout ─── */
-    .page-wrap {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 0 28px;
+
+    .page-wrap { max-width: 860px; margin: 0 auto; padding: 0 28px; }
+    .hero { height: 440px; }
+    .hero h1 { font-size: clamp(2.6rem, 6vw, 4rem); margin-bottom: 10px; }
+    .hero-tag { color: rgba(255,255,255,0.72); font-size: 1.05rem; max-width: 560px; }
+
+    .about {
+      display: flex; align-items: center; gap: 18px;
+      padding: 36px 0 32px; border-bottom: 1px solid #e8e8e8;
+    }
+    .about img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .about-name { font-weight: 600; color: #111; }
+    .about-text { font-size: 0.92rem; color: #666; line-height: 1.6; }
+
+    .section-label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #999; margin: 44px 0 20px;
     }
 
-    /* ─── Typography ─── */
-    h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.75rem, 3.5vw, 2.4rem);
-      color: #111;
-      line-height: 1.2;
-      margin: 64px 0 18px;
+    .post-card {
+      display: grid; grid-template-columns: 220px 1fr; gap: 26px;
+      padding: 24px 0; border-bottom: 1px solid #f0f0f0;
+      color: inherit; text-decoration: none;
+    }
+    .post-card:hover { text-decoration: none; }
+    .post-card:hover h2 { color: #0057ff; }
+    .post-card .thumb {
+      width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+      border-radius: 6px; border: 1px solid #eee; display: block;
+    }
+    .post-eyebrow {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #999; margin-bottom: 6px;
+    }
+    .post-card h2 {
+      font-family: 'DM Serif Display', serif; font-size: 1.6rem; line-height: 1.2;
+      color: #111; margin: 0 0 10px; transition: color .15s;
+    }
+    .post-card p { font-size: 0.98rem; color: #555; margin-bottom: 10px; line-height: 1.65; }
+    .post-meta { font-size: 0.8rem; color: #999; }
+    .post-meta i { margin-right: 5px; }
+
+    .home-footer {
+      text-align: center; font-size: 0.78rem; color: #aaa;
+      padding: 56px 0 60px;
     }
 
-    h3 {
-      font-family: 'Inter', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: #111;
-      margin: 36px 0 10px;
-      letter-spacing: -0.01em;
+    @media (max-width: 640px) {
+      .page-wrap, .hero-content { padding-left: 16px; padding-right: 16px; }
+      .post-card { grid-template-columns: 1fr; gap: 14px; }
+      .hero { height: 380px; }
     }
-
-    h4 {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #333;
-      margin: 20px 0 5px;
-    }
-
-    p {
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    a {
-      color: #0057ff;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    strong {
-      color: #111;
-      font-weight: 600;
-    }
-
-    ul {
-      margin: 0 0 20px 20px;
-      color: #333;
-    }
-
-    li {
-      margin-bottom: 8px;
-    }
-
-    /* ─── Section divider ─── */
-    .section-rule {
-      border: none;
-      border-top: 1.5px solid #e8e8e8;
-      margin: 56px 0 0;
-    }
-
-    /* ─── Byline ─── */
-    .byline {
-      padding: 36px 0 0;
-      border-bottom: 1px solid #e8e8e8;
-      margin-bottom: 0;
-    }
-
-    .byline-inner {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding-bottom: 28px;
-    }
-
-    .byline-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #111;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 0.9rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .byline-avatar img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .byline-text {
-      font-size: 0.85rem;
-      color: #666;
-    }
-
-    .byline-name {
-      font-weight: 600;
-      color: #111;
-      font-size: 0.9rem;
-    }
-
-    /* ─── Intro lead ─── */
-    .lead {
-      font-size: 1.15rem;
-      color: #444;
-      line-height: 1.8;
-      margin: 40px 0 28px;
-      border-left: 3px solid #111;
-      padding-left: 22px;
-    }
-
-    /* ─── Callout ─── */
-    .callout {
-      border-left: 3px solid;
-      border-radius: 0 4px 4px 0;
-      padding: 22px 26px;
-      margin: 36px 0;
-      font-size: 0.95rem;
-      line-height: 1.65;
-      background: #f5f8ff;
-      border-color: #0057ff;
-      color: #2a3f6f;
-    }
-
-    .callout p {
-      margin-bottom: 12px;
-      color: inherit;
-    }
-    .callout p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* ─── Pull quote (Kinyarwanda) ─── */
-    .pull-quote {
-      font-family: 'DM Serif Display', serif;
-      font-style: italic;
-      font-size: 1.6rem;
-      line-height: 1.4;
-      color: #111;
-      text-align: center;
-      margin: 40px 0 12px;
-      padding: 0 16px;
-    }
-    .pull-quote-translation {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #888;
-      margin-bottom: 36px;
-      font-style: italic;
-    }
-
-    /* ─── Figure ─── */
-    figure {
-      margin: 32px 0;
-    }
-    figure img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 6px;
-      border: 1px solid #eee;
-    }
-    figcaption {
-      font-size: 0.82rem;
-      color: #888;
-      text-align: center;
-      margin-top: 12px;
-      font-style: italic;
-      line-height: 1.55;
-    }
-
-    /* ─── Footer ─── */
-    .post-footer {
-      margin-top: 80px;
-      padding: 28px 0 60px;
-      border-top: 1.5px solid #e8e8e8;
-      display: flex;
-      align-items: flex-start;
-      gap: 28px;
-      flex-wrap: wrap;
-    }
-
-    .footer-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      flex: 1;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 5px 12px;
-      border-radius: 100px;
-      background: #f0f0f0;
-      color: #555;
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background .15s;
-    }
-
-    .tag:hover {
-      background: #e0e0e0;
-      color: #111;
-    }
-
-    .footer-course {
-      font-size: 0.75rem;
-      color: #aaa;
-      text-align: center;
-      line-height: 1.6;
-      width: 100%;
-    }
-
-    .sign-off {
-      font-family: 'DM Serif Display', serif;
-      font-style: italic;
-      font-size: 1.4rem;
-      color: #111;
-      text-align: center;
-      margin: 48px 0 24px;
-    }
-
   </style>
 </head>
 
 <body>
 
   <div class="top-nav">
-    <a href="#" class="logo"><span class="just">just</span><span class="yap">Yapping</span></a>
+    <a href="index.html" class="logo"><span class="just">just</span><span class="yap">Yapping</span></a>
   </div>
 
-
-  <!-- ══════ HERO ══════ -->
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
-      <div class="hero-eyebrow">
-        <i class="fa-solid fa-car-side"></i>
-        Personal Essay &mdash; On Growing Up &amp; Small W's
-      </div>
-      <h1>Behind the Wheel:<br>From Dad's Lap to My Own License</h1>
-      <div class="hero-meta">
-        <span><i class="fa-regular fa-user"></i> Beni</span>
-        <span><i class="fa-regular fa-calendar"></i> June 2026</span>
-        <span><i class="fa-solid fa-location-dot"></i> Kigali, Rwanda</span>
-      </div>
+      <div class="hero-eyebrow"><i class="fa-solid fa-feather"></i> Opinions, small W's &amp; learning in public</div>
+      <h1>JustYapping</h1>
+      <p class="hero-tag">Stories from Kigali &mdash; the things I'm living, learning and building.</p>
     </div>
   </div>
 
-  <!-- ══════ BODY ══════ -->
   <div class="page-wrap">
 
-    <div class="byline">
-      <div class="byline-inner">
-        <div class="byline-avatar"><img src="avatar.jpg" alt="Beni"></div>
-        <div>
-          <div class="byline-name">Beni</div>
-          <div class="byline-text">Starting a blog to share opinions &mdash; and challenge a few common ones &nbsp;·&nbsp; Post #1</div>
-        </div>
+    <div class="about">
+      <img src="avatar.jpg" alt="Beni">
+      <div>
+        <div class="about-name">Beni</div>
+        <div class="about-text">Starting a blog to share opinions &mdash; and challenge a few common ones. Based in Kigali, Rwanda.</div>
       </div>
     </div>
 
-    <!-- Lead -->
-    <p class="lead">
-      From sitting on my father's lap, gripping a wheel that wasn't really mine, to finally earning my own license &mdash; this is what driving means in a country where some people rank a license above a degree, and where my own parents quietly rank knowledge above both.
-    </p>
+    <div class="section-label">Stories</div>
 
-    <hr class="section-rule">
-    <h2>The Lap Years</h2>
-
-    <p>When I was a child &mdash; somewhere between three and five &mdash; my dad used to put me on his lap and let me hold the wheel like I was actually driving. I loved it. Crazily. I couldn't wait to grow up so I could drive a car of my own. And man, the way he drove fast made me feel like my dad had something special that other people just didn't have.</p>
-
-    <p>Then I grew up. Responsibilities piled on. I was officially too big for dad's lap, and somewhere along the way, that early dream of driving quietly faded into the background.</p>
-
-    <hr class="section-rule">
-    <h2>What a Car Means in Rwanda</h2>
-
-    <p>Even though I was introduced to driving so early, in Rwanda owning a car isn't taken lightly. If anything, it signals real financial standing. And with fuel prices skyrocketing, it doesn't get any easier on a family budget.</p>
-
-    <p>So parents, aunties, uncles &mdash; they're strict about their cars. In some homes, a teenager driving before the legal age is simply unspoken of. Almost taboo.</p>
-
-    <p>On a wider, national level, many people believe that getting your driver's license is more valuable than getting a degree.</p>
-
-    <hr class="section-rule">
-    <h2>My Father's Take</h2>
-
-    <p>My parents land on the opposite end of that belief. They don't really encourage driving. If they catch you spending money to learn, they consider it a bit of a waste of time.</p>
-
-    <p>My father usually puts it like this:</p>
-
-    <div class="callout">
-      <p>If you are really successful, you will be driven &mdash; kind of like the president. So chase knowledge instead. Learn.</p>
-    </div>
-
-    <p>It's a whole philosophy, really, and one I want to dig into properly another day. But that's the world I was raised in: driving as something almost optional. A skill, not a milestone.</p>
-
-    <hr class="section-rule">
-    <h2>Finally, the License</h2>
-
-    <p>Anyway &mdash; enough yapping. After multiple attempts, I finally got my driver's license. And mn, if only you saw the grin on my face😄.</p>
-
-    <p>What a privilege to be tired from the things I once thought were out of reach. To be woken up early to take the kids to school on a random morning. Mid-dream, I'd hear someone banging on my window:</p>
-
-    <p class="pull-quote">&ldquo;Beniiii twakererewe mama aravuze ngo ngwino udutware&rdquo;</p>
-    <p class="pull-quote-translation">(Beni!! We're late! Mom said you're driving us!)</p>
-
-    <p>Yeah. That loud. I have never been happier to be woken up.</p>
-
-    <p>These kids are a bit unserious too, by the way. I used to be in class at 6 AM. Theirs starts at 8 &mdash; like, how are you even late?</p>
-
-    <hr class="section-rule">
-    <h2>We're Not All Chasing the Same Things</h2>
-
-    <p>It feels really good having the responsibility now. And finally, I can talk about driving openly without sounding like that one guy going:</p>
-
-    <div class="callout">
-      <p><em>&ldquo;for some of us driving is just a skill that can be handy when needed, and I like it too.&rdquo;</em></p>
-    </div>
-
-    <p>But here's the part I actually want to say out loud: making someone feel embarrassed or undermined because they don't yet have a driver's license? That's just wrong.</p>
-
-    <p>We are not all looking for the same things in this life. Some people are saving up for a car. Some are saving up for a master's. Some are doing neither and still building lives that matter. None of those paths makes the others less.</p>
-
-    <hr class="section-rule">
-    <h2>The Windshield That Cracked Me Up</h2>
-
-    <p>Quick one. While I was at the exam site, I spotted a car just sitting in the lot with something painted across the windshield. The line read, ngo <em>&ldquo;I'M NOT JOKE&rdquo;</em>. 😂😂😂.</p>
-
-    <figure>
-      <img src="exam-car.jpg" alt="A red car at the driving exam site with 'I'M NOT JOKE' written across the windshield">
-      <figcaption>Spotted at the exam site. License plate blurred for privacy.</figcaption>
-    </figure>
-
-    <p>Whoever wrote that deserves a fine of their own 🤦🏾‍♂️ easied my tension though😂</p>
-
-    <hr class="section-rule">
-    <h2>One Last Thought</h2>
-
-    <p>Here's something that has been sitting on my mind. What would it actually take to get a Rwandan driver's license turned international?</p>
-
-    <p>Because mn &mdash; anyone who has sat for ours knows we pass with serious skills. The training is no joke. The exam is harder than people give it credit for. By the time you are holding that card, you have earned it. So it'd surely be a win if travelling to another country with this license meant added value: no starting from zero, no being treated like a total beginner, just plug in and drive 😎.</p>
-
-    <p>I won't pretend I know the full picture &mdash; But I want to learn how it works. And I think it's a fight worth picking up.</p>
-
-    <hr class="section-rule">
-    
-    <p class="sign-off">To more achievements😎🥂.</p>
-
-    <!-- Read next -->
-    <div class="callout">
-      <p><strong>Read next:</strong> <a href="ml-part-1.html">Teaching a Computer to Guess Who Says Yes</a> &mdash; my first steps into machine learning.</p>
-    </div>
-
-    <!-- Footer -->
-    <div class="post-footer">
-      <!--
-      <div class="footer-tags">
-        <a href="#" class="tag">personal essay</a>
-        <a href="#" class="tag">rwanda</a>
-        <a href="#" class="tag">driving</a>
-        <a href="#" class="tag">growing up</a>
-        <a href="#" class="tag">opinions</a>
+    <a class="post-card" href="ml-part-1.html">
+      <img class="thumb" src="ml-desk.jpg" alt="A laptop and a monitor showing code on a desk at night">
+      <div>
+        <div class="post-eyebrow"><i class="fa-solid fa-brain"></i> Learning in Public &middot; Machine Learning, Part 1</div>
+        <h2>Teaching a Computer to Guess Who Says Yes</h2>
+        <p>You have 9,000 people and only 1,000 messages to send. Pick at random and roughly 117 say yes. I taught a computer to pick &mdash; and it found 499.</p>
+        <div class="post-meta"><i class="fa-regular fa-calendar"></i> 9 October 2026</div>
       </div>
-    -->
-      <div class="footer-course">
-        1st June 2026 &middot; <span style="color:#ccc">First of many</span>
-      </div>
-    </div>
+    </a>
 
-  </div><!-- /.page-wrap -->
+    <a class="post-card" href="behind-the-wheel.html">
+      <img class="thumb" src="exam-car.jpg" alt="A car at the driving exam site">
+      <div>
+        <div class="post-eyebrow"><i class="fa-solid fa-car-side"></i> Personal Essay &middot; On Growing Up &amp; Small W's</div>
+        <h2>Behind the Wheel: From Dad's Lap to My Own License</h2>
+        <p>From sitting on my father's lap, gripping a wheel that wasn't really mine, to finally earning my own license &mdash; what driving means in a country where some people rank a license above a degree.</p>
+        <div class="post-meta"><i class="fa-regular fa-calendar"></i> 1 June 2026</div>
+      </div>
+    </a>
+
+    <div class="home-footer">JustYapping &middot; Kigali, Rwanda</div>
+
+  </div>
 </body>
 
 </html>
