@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Learning machine learning from zero: teaching a computer to guess which bank customers will say yes.">
+  <title>Who Says Yes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&family=Permanent+Marker&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ─── Reset ─── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* ─── Base ─── */
+    body {
+      background: #fff;
+      color: #111;
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── Header Nav ─── */
+    .top-nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 22px 32px;
+      z-index: 10;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .logo {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.55rem;
+      color: #fff;
+      text-decoration: none;
+      line-height: 1;
+      display: inline-block;
+      transform: rotate(-3deg);
+      transition: transform 0.2s, color 0.2s;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+    .logo .just {
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      display: inline-block;
+      transform: translateY(-4px) rotate(-2deg);
+      margin-right: 2px;
+    }
+    .logo .yap {
+      color: #fbbf24;
+    }
+    .logo:hover {
+      transform: rotate(-1deg) scale(1.04);
+      text-decoration: none;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      position: relative;
+      height: 520px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.88) 100%),
+        url('ml-desk.jpg') center 55% / cover no-repeat,
+        #0a0c14;
+    }
+
+    .hero-content {
+      position: relative;
+      width: 100%;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 28px 52px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 14px;
+    }
+
+    .hero-eyebrow i {
+      font-size: 0.7rem;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      max-width: 640px;
+    }
+
+    .hero-meta {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.55);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta i {
+      margin-right: 5px;
+    }
+
+    /* ─── Layout ─── */
+    .page-wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ─── Typography ─── */
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.75rem, 3.5vw, 2.4rem);
+      color: #111;
+      line-height: 1.2;
+      margin: 64px 0 18px;
+    }
+
+    h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #111;
+      margin: 36px 0 10px;
+      letter-spacing: -0.01em;
+    }
+
+    h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #333;
+      margin: 20px 0 5px;
+    }
+
+    p {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    a {
+      color: #0057ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    strong {
+      color: #111;
+      font-weight: 600;
+    }
+
+    ul {
+      margin: 0 0 20px 20px;
+      color: #333;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    /* ─── Section divider ─── */
+    .section-rule {
+      border: none;
+      border-top: 1.5px solid #e8e8e8;
+      margin: 56px 0 0;
+    }
+
+    /* ─── Byline ─── */
+    .byline {
+      padding: 36px 0 0;
+      border-bottom: 1px solid #e8e8e8;
+      margin-bottom: 0;
+    }
+
+    .byline-inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding-bottom: 28px;
+    }
+
+    .byline-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .byline-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .byline-text {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .byline-name {
+      font-weight: 600;
+      color: #111;
+      font-size: 0.9rem;
+    }
+
+    /* ─── Intro lead ─── */
+    .lead {
+      font-size: 1.15rem;
+      color: #444;
+      line-height: 1.8;
+      margin: 40px 0 28px;
+      border-left: 3px solid #111;
+      padding-left: 22px;
+    }
+
+    /* ─── Callout ─── */
+    .callout {
+      border-left: 3px solid;
+      border-radius: 0 4px 4px 0;
+      padding: 22px 26px;
+      margin: 36px 0;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      background: #f5f8ff;
+      border-color: #0057ff;
+      color: #2a3f6f;
+    }
+
+    .callout p {
+      margin-bottom: 12px;
+      color: inherit;
+    }
+    .callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ─── Pull quote (Kinyarwanda) ─── */
+    .pull-quote {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      line-height: 1.4;
+      color: #111;
+      text-align: center;
+      margin: 40px 0 12px;
+      padding: 0 16px;
+    }
+    .pull-quote-translation {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 36px;
+      font-style: italic;
+    }
+
+    /* ─── Figure ─── */
+    figure {
+      margin: 32px 0;
+    }
+    figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      border: 1px solid #eee;
+    }
+    figcaption {
+      font-size: 0.82rem;
+      color: #888;
+      text-align: center;
+      margin-top: 12px;
+      font-style: italic;
+      line-height: 1.55;
+    }
+
+    /* ─── Footer ─── */
+    .post-footer {
+      margin-top: 80px;
+      padding: 28px 0 60px;
+      border-top: 1.5px solid #e8e8e8;
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .footer-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 100px;
+      background: #f0f0f0;
+      color: #555;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background .15s;
+    }
+
+    .tag:hover {
+      background: #e0e0e0;
+      color: #111;
+    }
+
+    .footer-course {
+      font-size: 0.75rem;
+      color: #aaa;
+      text-align: center;
+      line-height: 1.6;
+      width: 100%;
+    }
+
+    .sign-off {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      color: #111;
+      text-align: center;
+      margin: 48px 0 24px;
+    }
+
+  
+    /* ─── Inline code ─── */
+    p code, li code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85em;
+      background: #f3f3f3;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ─── Notebook cell ─── */
+    .code-wrap {
+      margin: 28px 0 0;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px 6px 0 0;
+      overflow: hidden;
+    }
+    .code-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1e1e2e;
+      padding: 10px 16px;
+    }
+    .code-bar-left { display: flex; align-items: center; gap: 10px; }
+    .code-dots { display: flex; gap: 5px; }
+    .code-dots span { width: 9px; height: 9px; border-radius: 50%; }
+    .code-dots span:nth-child(1) { background: #ff5f57; }
+    .code-dots span:nth-child(2) { background: #febc2e; }
+    .code-dots span:nth-child(3) { background: #28c840; }
+    .code-filename {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.38);
+      letter-spacing: 0.07em;
+    }
+    .code-lang-badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 3px;
+      padding: 1px 7px;
+    }
+    pre {
+      background: #0f0f1a;
+      padding: 22px 24px;
+      overflow-x: auto;
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.825rem;
+      line-height: 1.8;
+      color: #cdd6f4;
+    }
+    .kw { color: #cba6f7; }
+    .fn { color: #89dceb; }
+    .str { color: #a6e3a1; }
+    .cmt { color: #585b70; font-style: italic; }
+    .num { color: #fab387; }
+    .punc { color: #89dceb; }
+
+    /* ─── Cell output ─── */
+    .output-wrap {
+      margin: 0 0 28px;
+      border: 1px solid #e0e0e0;
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      overflow: hidden;
+    }
+    .output-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #999;
+      background: #f8f8f8;
+      padding: 6px 16px;
+      border-bottom: 1px solid #eee;
+    }
+    .output-wrap pre {
+      background: #fff;
+      color: #222;
+    }
+
+    /* ─── Data table ─── */
+    .data-table-wrap {
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 20px 0 28px;
+      font-family: 'Fira Code', monospace;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    thead tr { background: #f8f8f8; }
+    thead th {
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    tbody tr { border-bottom: 1px solid #f0f0f0; }
+    tbody td { padding: 10px 16px; color: #333; font-size: 0.8rem; }
+    .row-hi { font-weight: 600; color: #000; }
+
+    @media (max-width: 600px) {
+      .hero { height: 440px; }
+      .page-wrap, .hero-content { padding-left: 16px; padding-right: 16px; }
+      pre { padding: 16px; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-nav">
+    <a href="index.html" class="logo"><span class="just">just</span><span class="yap">Yapping</span></a>
+  </div>
+
+  <!-- ══════ HERO ══════ -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <i class="fa-solid fa-brain"></i>
+        Learning in Public &mdash; Machine Learning, Part 1
+      </div>
+      <h1>Teaching a Computer<br>to Guess Who Says Yes</h1>
+      <div class="hero-meta">
+        <span><i class="fa-regular fa-user"></i> Beni</span>
+        <span><i class="fa-regular fa-calendar"></i> October 2026</span>
+        <span><i class="fa-solid fa-location-dot"></i> Kigali, Rwanda</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ BODY ══════ -->
+  <div class="page-wrap">
+
+    <div class="byline">
+      <div class="byline-inner">
+        <div class="byline-avatar"><img src="avatar.jpg" alt="Beni"></div>
+        <div>
+          <div class="byline-name">Beni</div>
+          <div class="byline-text">Learning machine learning from zero, on real-world problems &nbsp;·&nbsp; Post #2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lead -->
+    <p class="lead">
+      You have 9,000 people and only 1,000 messages to send. About 1 in 9 of them will say yes to your offer. Pick at random and roughly 117 say yes. I taught a computer to pick &mdash; and it found <strong>499</strong>.
+    </p>
+
+    <hr class="section-rule">
+    <h2>From &ldquo;My Name Is&rdquo; to Machine Learning</h2>
+
+    <p>Before this, the closest I'd come to anything &ldquo;smart&rdquo; in Python was a script that read a paragraph, found <em>&ldquo;my name is&rdquo;</em>, and grabbed the next two words. I wrote the rule, the computer followed it.</p>
+
+    <p>Machine learning flips that. You don't write the rules. You show the computer thousands of examples <em>with the answers</em>, and it works out the rules itself.</p>
+
+    <p>So I gave myself one rule: learn it on a real-world problem, not toy examples.</p>
+
+    <hr class="section-rule">
+    <h2>The Data</h2>
+
+    <p>I used public data from a Portuguese bank that phoned <strong>45,211 customers</strong> to offer a <em>term deposit</em> &mdash; you lock your money with the bank for a while, and it pays you interest. For every customer we know their age, job, balance, loans, how earlier campaigns went &mdash; and whether they said yes this time.</p>
+
+    <p>Only about <strong>12%</strong> did.</p>
+
+    <div class="callout">
+      <p>This is a personal learning project on public data &mdash; not anyone's real customers.</p>
+    </div>
+
+    <hr class="section-rule">
+    <h2>Step 1: Counting Before Being Clever</h2>
+
+    <p>Before any &ldquo;AI&rdquo;, I just counted who said yes:</p>
+
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr><th>Group</th><th>Said yes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Said yes in an earlier campaign</td><td class="row-hi">65%</td></tr>
+          <tr><td>Said no in an earlier campaign</td><td>13%</td></tr>
+          <tr><td>Students</td><td class="row-hi">29%</td></tr>
+          <tr><td>Retired</td><td class="row-hi">23%</td></tr>
+          <tr><td>No housing loan</td><td>17%</td></tr>
+          <tr><td>Paying off a house</td><td>8%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>It makes sense. People who trusted the bank once tend to do it again. And someone paying off a house has less spare cash to lock away. My accounting brain approved.</p>
+
+    <hr class="section-rule">
+    <h2>Step 2: Letting the Computer Learn</h2>
+
+    <p>Then I let the computer study <strong>36,168</strong> customers and tested it on <strong>9,043</strong> it had never seen &mdash; like the difference between practising past papers and sitting the real exam. I tried three &ldquo;students&rdquo;:</p>
+
+    <ul>
+      <li><strong>The scoring sheet</strong> (logistic regression): points for each trait, added up and turned into a chance of yes.</li>
+      <li><strong>The question tree</strong> (decision tree): yes/no questions asked in order, like stacking filters in Excel.</li>
+      <li><strong>The forest</strong> (random forest): 300 different question trees, answers averaged &mdash; like asking 300 advisors instead of one.</li>
+    </ul>
+
+    <hr class="section-rule">
+    <h2>The 89% Trap</h2>
+
+    <p>My very first model was <strong>89% accurate</strong>. I was ready to celebrate.</p>
+
+    <p>Then I checked a &ldquo;model&rdquo; that just says <em>no</em> to everyone. <strong>88% accurate.</strong> When almost everybody says no, being &ldquo;right&rdquo; is easy &mdash; you can be right all day and still never find a single person who wants your offer.</p>
+
+    <div class="callout">
+      <p>The real question isn't <em>&ldquo;how often is it right?&rdquo;</em> It's <em>&ldquo;with the same 1,000 messages, how many interested people do we actually reach?&rdquo;</em></p>
+    </div>
+
+    <hr class="section-rule">
+    <h2>The Showdown</h2>
+
+    <p>So I gave each model the same budget: message its top 1,000 picks, then count how many really said yes.</p>
+
+    <div class="code-wrap">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-filename">02_first_model.ipynb</span>
+        </div>
+        <span class="code-lang-badge">Python</span>
+      </div>
+<pre>models <span class="punc">=</span> <span class="punc">{</span>
+    <span class="str">"Logistic regression"</span><span class="punc">:</span> probs<span class="punc">,</span>
+    <span class="str">"Decision tree"</span><span class="punc">:</span> tree_probs<span class="punc">,</span>
+    <span class="str">"Random forest"</span><span class="punc">:</span> forest_probs<span class="punc">,</span>
+<span class="punc">}</span>
+
+<span class="kw">for</span> name<span class="punc">,</span> model_probs <span class="kw">in</span> models<span class="punc">.</span><span class="fn">items</span><span class="punc">():</span>
+    top <span class="punc">=</span> model_probs<span class="punc">.</span><span class="fn">argsort</span><span class="punc">()[::-</span><span class="num">1</span><span class="punc">][:</span><span class="num">1000</span><span class="punc">]</span>   <span class="cmt"># each model's top 1,000 picks</span>
+    caught <span class="punc">=</span> y_test<span class="punc">.</span>iloc<span class="punc">[</span>top<span class="punc">].</span><span class="fn">sum</span><span class="punc">()</span>            <span class="cmt"># how many really said yes</span>
+    <span class="fn">print</span><span class="punc">(</span><span class="str">f"{name}: caught {caught}, wasted {1000 - caught} | hit rate {caught/1000:.0%}"</span><span class="punc">)</span></pre>
+    </div>
+    <div class="output-wrap">
+      <div class="output-label">Output</div>
+<pre>Logistic regression: caught 466, wasted 534 | hit rate 47%
+Decision tree: caught 377, wasted 623 | hit rate 38%
+Random forest: caught 499, wasted 501 | hit rate 50%</pre>
+    </div>
+
+    <p>Same 1,000 messages. The forest reached <strong>122 more interested people</strong> than the question tree &mdash; which also means 122 fewer people annoyed by an offer they never wanted.</p>
+
+    <hr class="section-rule">
+    <h2>The Plot Twist</h2>
+
+    <p>When I opened up the question tree to read its questions, one of them was basically: <em>&ldquo;Was this person called in March?&rdquo;</em></p>
+
+    <p>In this campaign, March calls happened to go well. But that's a fact about the <em>bank's calendar</em>, not about the customer. Next year it means nothing. The computer will happily learn the wrong lesson &mdash; someone who understands the business still has to read its reasoning and say <em>&ldquo;mn, no.&rdquo;</em></p>
+
+    <p>Turns out my accounting background isn't a detour from this. It's the part that catches the nonsense.</p>
+
+    <hr class="section-rule">
+    <h2>Next Up</h2>
+
+    <p>Predicting who might struggle to repay a loan &mdash; and making the model explain <em>why</em> it flagged them. Because &ldquo;the computer said so&rdquo; isn't an answer anyone should accept about their money.</p>
+
+    <p>All my code and notes are on <a href="https://github.com/ndavid-arch/bank-recommendation-engine">GitHub</a>.</p>
+
+    <hr class="section-rule">
+
+    <p class="sign-off">One model down, many to go😎🥂.</p>
+
+    <!-- Footer -->
+    <div class="post-footer">
+      <div class="footer-course">
+        9th October 2026 &middot; <span style="color:#ccc">Learning in public</span>
+      </div>
+    </div>
+
+  </div><!-- /.page-wrap -->
+</body>
+
+</html>
